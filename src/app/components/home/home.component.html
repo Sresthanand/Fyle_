@@ -1,23 +1,188 @@
 <div class="header">
-  <div class="tw-text-24-px tw-font-600">Open Books Library</div>
-  <div class="search-button">
-    <mat-icon class="tw-mt-16-px" aria-label="Search Icon">search</mat-icon>
-    <input
-      [formControl]="bookSearch"
-      name="searchKey"
-      type="text"
-      placeholder="Search Books"
-      class="tw-border-0 tw-bg-inherit"
-    >
+  <div class="tw-text-24-px tw-font-600" style="color: #34b27a">
+    Open Books Library
+  </div>
+
+  <div class="search-container">
+    <div class="search-input">
+      <mat-icon class="search-icon" aria-label="Search Icon">search</mat-icon>
+      <input
+        [formControl]="bookSearch"
+        name="searchKey"
+        type="text"
+        placeholder="Search Books"
+        class="search-input-field"
+      />
+      <button
+        mat-icon-button
+        (click)="clearSearch()"
+        class="clear-search-button"
+      >
+        <mat-icon class="clear-search-icon">clear</mat-icon>
+      </button>
+    </div>
   </div>
 </div>
-<div class="tw-flex tw-flex-row tw-m-24-px">
+<div class="tw-flex tw-flex-row tw-mt-24-px tw-ml-24-px">
   <section class="trending-subjects">
-    <div class="tw-font-600 tw-text-24-px">Trending Subjects</div>
-    <ul class="tw-list-none tw-pl-0">
-      <li class="tw-text-16-px tw-cursor-pointer tw-p-12-px" *ngFor="let subject of trendingSubjects" routerLink="/trending-subject/{{ subject.name }}">
+    <section class="home-section">
+      <div class="home-section-text">Home</div>
+    </section>
+    <div class="trending-subjects-text">Trending Subjects</div>
+    <ul class="trending-subjects-list">
+      <li
+        class="trending-subjects-item"
+        *ngFor="let subject of trendingSubjects"
+        routerLink="/trending-subject/{{ subject.name }}"
+      >
         {{ subject.name }}
       </li>
     </ul>
+  </section>
+
+  <section class="search-results tw-ml-24-px">
+    <div class="tw-font-600 tw-text-24-px">Search Results</div>
+    <div class="tw-flex tw-items-center tw-mt-4-px">
+      <div class="tw-mr-8-px">All ({{ totalEntries }} entries)</div>
+    </div>
+
+    <table
+      class="tw-table tw-table-fixed tw-w-full tw-mt-16-px tw-border-collapse"
+    >
+      <thead>
+        <tr>
+          <th
+            class="tw-text-16-px tw-font-600 tw-p-12-px tw-border-b tw-border-gray-500"
+          >
+            Title and Sub Title
+          </th>
+          <th
+            class="tw-text-16-px tw-font-600 tw-p-12-px tw-border-b tw-border-gray-500"
+          >
+            Author
+          </th>
+          <th
+            class="tw-text-16-px tw-font-600 tw-p-12-px tw-border-b tw-border-gray-500"
+          >
+            Year of Publication
+          </th>
+        </tr>
+      </thead>
+
+      <tr *ngIf="!isLoading && searchResultBooks.length < 1">
+        <td
+          colspan="3"
+          class="tw-text-16-px tw-p-12-px tw-border-b tw-border-gray-500"
+        >
+          No results found for this search !!
+        </td>
+      </tr>
+
+      <tbody>
+        <tr
+          *ngFor="let book of searchResultBooks; let even = even"
+          [ngClass]="{ 'tw-bg-gray-100': even }"
+        >
+          <td
+            *ngIf="!isLoading && searchResultBooks.length > 0"
+            class="tw-text-16-px tw-p-12-px tw-border-b tw-border-gray-500"
+          >
+            <div style="color: #34b27a">{{ book.title }}</div>
+          </td>
+          <td
+            *ngIf="!isLoading && searchResultBooks.length > 0"
+            class="tw-text-16-px tw-p-12-px tw-border-b tw-border-gray-500"
+          >
+            {{
+              book.author_name
+                ? book.author_name.length > 1
+                  ? book.author_name[0]
+                  : book.author_name
+                : 'Unknown'
+            }}
+          </td>
+          <td
+            *ngIf="!isLoading && searchResultBooks.length > 0"
+            class="tw-text-16-px tw-p-12-px tw-border-b tw-border-gray-500"
+          >
+            {{
+              book.publish_year
+                ? book.publish_year.length > 1
+                  ? book.publish_year[0]
+                  : book.publish_year
+                : 'Unknown'
+            }}
+          </td>
+          <td
+            *ngIf="!isLoading && searchResultBooks.length === 0"
+            colspan="3"
+            class="tw-text-16-px tw-p-12-px tw-border-b tw-border-gray-500"
+          >
+            No results found
+          </td>
+        </tr>
+        <tr *ngIf="isLoading">
+          <td
+            colspan="3"
+            class="tw-text-16-px tw-p-12-px tw-border-b tw-border-gray-500"
+          >
+            <div class="loader"></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pagination-container tw-mt-16-px tw-flex tw-justify-between">
+      <div class="tw-ml-16-px tw-self-end tw-text-gray-600">
+        Showing {{ calculateRange() }}
+      </div>
+
+      <div class="tw-flex tw-items-center tw-space-x-4 tw-mr-16-px">
+        <div class="tw-font-600">Display:</div>
+        <button
+          (click)="changePageSize('up')"
+          [disabled]="pageSize === 10"
+          class="pagination-button tw-px-3 tw-py-2 tw-text-white hover:tw-bg-blue-600"
+        >
+          +
+        </button>
+        <div class="tw-px-3 tw-py-2 tw-bg-gray-100">
+          {{ pageSize }}
+        </div>
+        <button
+          (click)="changePageSize('down')"
+          [disabled]="pageSize === 1"
+          class="pagination-button tw-px-3 tw-py-2 tw-text-white hover:tw-bg-blue-600"
+        >
+          -
+        </button>
+      </div>
+
+      <div class="tw-flex tw-items-center tw-space-x-4">
+        <button
+          (click)="goToPreviousPage()"
+          [disabled]="currentPage === 1"
+          class="pagination-button tw-px-4 tw-py-2 tw-text-white hover:tw-bg-blue-600"
+        >
+          Previous
+        </button>
+        <ng-container *ngFor="let page of pagesArray">
+          <button
+            (click)="goToPage(page)"
+            [class.active]="currentPage === page"
+            class="pagination-button tw-px-3 tw-py-2 tw-text-white hover:tw-bg-blue-600"
+          >
+            {{ page }}
+          </button>
+        </ng-container>
+        <button
+          (click)="goToNextPage()"
+          [disabled]="currentPage === totalPages"
+          class="pagination-button tw-px-4 tw-py-2 tw-text-white hover:tw-bg-blue-600"
+        >
+          Next
+        </button>
+      </div>
+    </div>
   </section>
 </div>

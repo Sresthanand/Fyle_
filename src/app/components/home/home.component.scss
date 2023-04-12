@@ -29,3 +29,149 @@
   tw-rounded-4-px
   tw-shadow-lg
 }
+
+.home-section {
+  background-color: #5011dd;
+  color: white;
+  padding: 10px;
+  font-weight: 600;
+  font-size: 24px;
+}
+
+.search-section {
+  background-color: blue;
+  color: white;
+  padding: 10px;
+}
+
+.search-input {
+  width: 100%;
+  height: 30px;
+  padding: 5px;
+  font-size: 16px;
+}
+
+.trending-subjects {
+  background: linear-gradient(to bottom,  #5011dd, #b343f0);
+  color: white;
+}
+
+.trending-subjects-text {
+  font-weight: 600;
+  font-size: 24px;
+}
+
+.trending-subjects-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.trending-subjects-item {
+  cursor: pointer;
+  padding: 12px;
+  font-size: 16px;
+}
+
+
+.search-container {
+  display: flex;
+  align-items: center;
+  background-color: #efefef;
+  padding: 8px;
+  border-radius: 20px;
+}
+
+.search-input {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.search-icon {
+  color: #555;
+  margin-right: 8px;
+  font-size: 24px;
+}
+
+.search-input-field {
+  flex-grow: 1;
+  border: none;
+  background-color: transparent;
+  font-size: 16px;
+  outline: none;
+}
+
+.clear-search-button {
+  margin-left: 8px;
+  padding: 8px;
+  background-color: #efefef;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.clear-search-button:hover {
+  background-color: #ddd;
+}
+
+.clear-search-icon {
+  color: #555;
+  font-size: 18px;
+}
+
+
+.loader {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-left: 50%;
+  border: 3px solid #34b27a; 
+  border-top-color: transparent;
+  animation: spin 1s linear infinite; 
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.tw-table {
+  border: 1px solid #e2e8f0; 
+}
+
+.tw-table thead th {
+  background-color: #b3efef; 
+
+}
+
+.tw-table tbody tr {
+  border-bottom: 1px solid #e2e8f0; 
+}
+
+.pagination-container {
+  .pagination-button {
+    @apply tw-rounded-md tw-text-center tw-transition-colors;
+    background-color: transparent;
+    border: 1px solid #d1d5db;
+    color: #374151;
+
+    &:hover {
+      background-color: #e5e7eb;
+    }
+
+    &[disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &.active {
+      background-color: #2563eb;
+      color: #fff;
+      border-color: #2563eb;
+
+      &:hover {
+        background-color: #2563eb;
+      }
+    }
+  }
+}

@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Book } from 'src/app/core/models/book-response.model';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'front-end-internship-assignment-table-view',
@@ -9,4 +11,11 @@ import { Book } from 'src/app/core/models/book-response.model';
 export class TableViewComponent {
   @Input() booksList: Book[] = [];
   @Input() subjectName: string = '';
+
+  constructor(private router: Router) {}
+
+  goToHome() {
+    this.router.navigate(['/']); // Replace '/' with the appropriate route for your home page
+  }
+  
 }

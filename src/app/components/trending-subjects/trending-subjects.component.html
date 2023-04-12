@@ -1,6 +1,14 @@
-<div *ngIf="allBooks.length > 0">
-  <front-end-internship-assignment-table-view
-  [booksList]="allBooks"
-  [subjectName]="subjectName"
-  ></front-end-internship-assignment-table-view>
-</div>
+<div *ngIf="allBooks.length > 0 && !isLoading">
+    <front-end-internship-assignment-table-view
+    
+    [booksList]="allBooks"
+    [subjectName]="subjectName"
+    ></front-end-internship-assignment-table-view>
+  </div>
+
+  <tr *ngIf="isLoading">
+    <td colspan="3" class="tw-text-16-px tw-p-12-px tw-border tw-border-gray-500">
+      <div class="loader"></div>
+    </td>
+  </tr>
+  
