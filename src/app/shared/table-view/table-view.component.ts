@@ -15,7 +15,7 @@ export class TableViewComponent {
   constructor(private router: Router) {}
 
   goToHome() {
-    this.router.navigate(['/']); // Replace '/' with the appropriate route for your home page
+    this.router.navigate(['/']);
   }
   
 }
